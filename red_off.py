@@ -8,5 +8,5 @@ pin = 17  # Red LED strip in snake tank
 
 GPIO.setup(pin, GPIO.OUT)
 GPIO.setup(pin, GPIO.HIGH)
-print("And the world becomes just a little more red.")
+print("Darkness falls again.")
 time.sleep(2)
