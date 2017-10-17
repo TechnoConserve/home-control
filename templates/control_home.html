@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Control</title>
+    <link rel="stylesheet" href='/static/style.css' />
+</head>
+<body>
+{% from "_formhelpers.html" import render_field %}
+<form method="POST">
+    {{ render_field(form.snake_light) }}
+    <input type="submit" value="Save">
+</form>
+</body>
+</html>
