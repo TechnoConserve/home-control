@@ -25,14 +25,14 @@ def get_states():
 def home():
     form = ControlForm()
     states = get_states()
-    form.snake_light.data = states['fluorescent']
-    form.red_light.data = states['red']
+    form.snake_light.data = not states['fluorescent']
+    form.red_light.data = not states['red']
     if request.method == 'POST' and form.validate():
         state = form.snake_light.data
         if state:
-            call(['/home/pi/relay/snake_on.py'])
+            call(['/home/pi/controls/snake_on.py'])
         else:
-            call(['/home/pi/relay/snake_off.py'])
+            call(['/home/pi/controls/snake_off.py'])
     return render_template('control_home.html', form=form)
 
 
