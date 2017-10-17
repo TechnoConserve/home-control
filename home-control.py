@@ -15,8 +15,8 @@ def get_states():
     fluorescent_light = 4
     GPIO.setup(red_light_pin, GPIO.IN)
     GPIO.setup(fluorescent_light, GPIO.IN)
-    states = {'red': not GPIO.input(red_light_pin),
-              'fluorescent': not GPIO.input(fluorescent_light)}
+    states = {'red': GPIO.input(red_light_pin),
+              'fluorescent': GPIO.input(fluorescent_light)}
     GPIO.cleanup()
     return states
 
