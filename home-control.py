@@ -1,14 +1,31 @@
 from flask import Flask, render_template, request
+import RPi.GPIO as GPIO
 from subprocess import call
 
 from forms import ControlForm
 
 app = Flask(__name__)
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+
+
+def get_states():
+    red_light_pin = 17
+    fluorescent_light = 4
+    GPIO.setup(red_light_pin, GPIO.IN)
+    GPIO.setup(fluorescent_light, GPIO.IN)
+    states = {'red': GPIO.input(red_light_pin),
+              'fluorescent': GPIO.input(fluorescent_light)}
+    GPIO.cleanup()
+    return states
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    form = ControlForm(request.form)
+    form = ControlForm()
+    states = get_states()
+    form.snake_light.data = states['fluorescent']
+    form.red_light.data = states['red']
     if request.method == 'POST' and form.validate():
         state = form.snake_light.data
         if state:
