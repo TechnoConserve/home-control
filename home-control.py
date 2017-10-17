@@ -5,11 +5,12 @@ from subprocess import call
 from forms import ControlForm
 
 app = Flask(__name__)
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
 
 
 def get_states():
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+
     red_light_pin = 17
     fluorescent_light = 4
     GPIO.setup(red_light_pin, GPIO.IN)
