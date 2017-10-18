@@ -30,13 +30,13 @@ while time.time() - time_start < 60:
     try:
         message = pop_message(client, QUEUE_URL)
         print(message)
-        if message == "Main light on":
+        if message == "main_on":
             call(['/home/pi/controls/snake_on.py'])
-        elif message == "Main light off":
+        elif message == "main_off":
             call(['/home/pi/controls/snake_off.py'])
-        elif message == "Secondary light on":
+        elif message == "secondary_on":
             call(['/home/pi/controls/red_on.py'])
-        elif message == "Secondary light off":
+        elif message == "secondary_off":
             call(['/home/pi/controls/red_off.py'])
     except:
         pass
