@@ -19,7 +19,6 @@ def get_states():
     red_state = int(red_state)
     fluorescent_state = int(fluorescent_state)
     states = {'red': red_state, 'fluorescent': fluorescent_state}
-    GPIO.cleanup()
     return states
 
 
