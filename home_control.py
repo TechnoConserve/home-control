@@ -18,7 +18,7 @@ def get_states():
     # Convert the strings into integers
     red_state = int(red_state)
     fluorescent_state = int(fluorescent_state)
-    states = {'red': red_state, 'fluorescent': fluorescent_state}
+    states = {'red': not red_state, 'fluorescent': not fluorescent_state}
     return states
 
 
