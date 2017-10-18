@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request
-import RPi.GPIO as GPIO
+import os
 import re
 from subprocess import call, check_output
 
 from forms import ControlForm
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('CONTROL_SECRET_KEY')
 
 
 def get_states():
