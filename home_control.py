@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import RPi.GPIO as GPIO
-from subprocess import call
+import re
+from subprocess import call, check_output
 
 from forms import ControlForm
 
@@ -8,15 +9,16 @@ app = Flask(__name__)
 
 
 def get_states():
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-
-    red_light_pin = 17
-    fluorescent_light = 4
-    GPIO.setup(red_light_pin, GPIO.IN)
-    GPIO.setup(fluorescent_light, GPIO.IN)
-    states = {'red': GPIO.input(red_light_pin),
-              'fluorescent': GPIO.input(fluorescent_light)}
+    # Pin numbers here are based on the WiringPi package
+    red_light_pin = '0'
+    fluorescent_light_pin = '7'
+    # Read the state of the pin and parse the output for the number returned
+    red_state = re.findall(r'\d+', check_output(['gpio', 'read', red_light_pin]).decode('utf-8'))[0]
+    fluorescent_state = re.findall(r'\d+', check_output(['gpio', 'read', fluorescent_light_pin]).decode('utf-8'))[0]
+    # Convert the strings into integers
+    red_state = int(red_state)
+    fluorescent_state = int(fluorescent_state)
+    states = {'red': red_state, 'fluorescent': fluorescent_state}
     GPIO.cleanup()
     return states
 
