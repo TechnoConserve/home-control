@@ -29,14 +29,11 @@ def home():
     form = ControlForm()
     states = get_states()
     if request.method == 'GET':
-        print('States:', states)
         form.snake_light.data = states['fluorescent']
         form.red_light.data = states['red']
     if form.validate_on_submit():
         form_fluorescent = form.snake_light.data
-        print('form_fluorescent', form_fluorescent)
         form_red = form.red_light.data
-        print('form_red', form_red)
         if form_fluorescent != states['fluorescent']:
             # Only need to do something if the form option doesn't match the current state of the light
             if form_fluorescent:
