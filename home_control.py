@@ -31,9 +31,9 @@ def home():
     form.snake_light.data = int(states['fluorescent'])
     form.red_light.data = int(states['red'])
     if request.method == 'POST' and form.validate():
-        form_fluorescent = form.snake_light.data
+        form_fluorescent = request.form['snake_light']
         print('form_fluorescent', form_fluorescent)
-        form_red = form.red_light.data
+        form_red = request.form['red_light']
         print('form_red', form_red)
         if form_fluorescent != states['fluorescent']:
             # Only need to do something if the form option doesn't match the current state of the light
