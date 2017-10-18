@@ -25,11 +25,12 @@ def get_states():
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    form = ControlForm()
     states = get_states()
+    form = ControlForm(snake_light=int(states['fluorescent']), red_light=int(states['red']))
+
     print('States:', states)
-    form.snake_light.data = int(states['fluorescent'])
-    form.red_light.data = int(states['red'])
+    #form.snake_light.data = int(states['fluorescent'])
+    #form.red_light.data = int(states['red'])
     if request.method == 'POST' and form.validate():
         form_fluorescent = request.form['snake_light']
         print('form_fluorescent', form_fluorescent)
