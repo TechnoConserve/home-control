@@ -26,12 +26,12 @@ def get_states():
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    states = get_states()
-    form = ControlForm(snake_light=int(states['fluorescent']), red_light=int(states['red']))
-
-    print('States:', states)
-    #form.snake_light.data = int(states['fluorescent'])
-    #form.red_light.data = int(states['red'])
+    form = ControlForm()
+    if request.method == 'GET':
+        states = get_states()
+        print('States:', states)
+        form.snake_light.data = int(states['fluorescent'])
+        form.red_light.data = int(states['red'])
     if request.method == 'POST' and form.validate_on_submit():
         form_fluorescent = form.snake_light.data
         print('form_fluorescent', form_fluorescent)
@@ -48,6 +48,8 @@ def home():
                 call(['/home/pi/controls/red_on.py'])
             else:
                 call(['/home/pi/controls/red_off.py'])
+    else:
+        print('Form not valid.')
     return render_template('control_home.html', form=form)
 
 
