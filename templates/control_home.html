@@ -6,7 +6,8 @@
 </head>
 <body>
 {% from "_formhelpers.html" import render_field %}
-<form method="POST">
+<form method="POST" action="/">
+    {{ form.csrf_token }}
     {{ render_field(form.snake_light) }}
     {{ render_field(form.red_light) }}
     <input type="submit" value="Save">
