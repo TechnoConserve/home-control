@@ -31,7 +31,7 @@ def home():
     print('States:', states)
     #form.snake_light.data = int(states['fluorescent'])
     #form.red_light.data = int(states['red'])
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST' and form.validate_on_submit():
         form_fluorescent = form.snake_light.data
         print('form_fluorescent', form_fluorescent)
         form_red = form.red_light.data
