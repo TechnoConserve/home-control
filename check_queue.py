@@ -38,5 +38,7 @@ while time.time() - time_start < 60:
             call(['/home/pi/controls/red_on.py'])
         elif message == "secondary_off":
             call(['/home/pi/controls/red_off.py'])
+        elif message == 'party_on':
+            call(['/home/pi/lights/party.py', 'off'])
     except:
         pass
