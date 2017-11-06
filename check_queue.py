@@ -44,8 +44,6 @@ while time.time() - time_start < 60:
             subprocess.call(['/home/pi/lights/whoshome.py'])
         elif message == 'party_off':
             for proc in psutil.process_iter():
-                if proc.name() == 'party.py':
-                    proc.kill()
                 if proc.name() == 'whoshome.py':
                     proc.kill()
         elif message == 'more_red1':
