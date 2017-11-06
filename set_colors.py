@@ -16,22 +16,22 @@ def get_color_values():
 
 def decrement_color(color, green, red, blue):
     if color == 'green':
-        green = max(green - 30, 0)
+        green = max(green - 60, 0)
     elif color == 'red':
-        red = max(red - 30, 0)
+        red = max(red - 60, 0)
     elif color == 'blue':
-        blue = max(blue - 30, 0)
+        blue = max(blue - 60, 0)
     else:
         parser.print_help()
     return green, red, blue
 
 def increment_color(color, green, red, blue):
     if color == 'green':
-        green = min(green + 30, 255)
+        green = min(green + 60, 255)
     elif color == 'red':
-        red = min(red + 30, 255)
+        red = min(red + 60, 255)
     elif color == 'blue':
-        blue = min(blue + 30, 255)
+        blue = min(blue + 60, 255)
     else:
         parser.print_help()
     return green, red, blue
