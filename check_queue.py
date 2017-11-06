@@ -45,7 +45,7 @@ while time.time() - time_start < 60:
         elif message == 'party_off':
             for proc in psutil.process_iter():
                 if proc.name() == 'whoshome.py':
-                    proc.kill()
+                    proc.terminate()
         elif message == 'more_red1':
             subprocess.call(['/home/pi/controls/set_colors.py', 'red', '1', 'up'])
         elif message == 'more_green1':
