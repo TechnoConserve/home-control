@@ -1,7 +1,8 @@
 #!/home/pi/venv/home_control/bin/python
 import boto3
 import os
-import subprocess, signal
+import psutil
+import subprocess
 import time
 
 ACCESS_KEY = os.environ.get('ACCESS_KEY', '')
@@ -42,15 +43,11 @@ while time.time() - time_start < 60:
         elif message == 'party_on':
             subprocess.call(['/home/pi/lights/whoshome.py'])
         elif message == 'party_off':
-            p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
-            out, err = p.communicate()
-            for line in out.splitlines():
-                if 'party.py' in line:
-                    pid = int(line.split(None, 1)[0])
-                    os.kill(pid, signal.SIGKILL)
-                if 'whoshome.py' in line:
-                    pid = int(line.split(None, 1)[0])
-                    os.kill(pid, signal.SIGKILL)
+            for proc in psutil.process_iter():
+                if proc.name() == 'party.py':
+                    proc.kill()
+                if proc.name() == 'whoshome.py':
+                    proc.kill()
         elif message == 'more_red1':
             subprocess.call(['/home/pi/controls/set_colors.py', 'red', '1', 'up'])
         elif message == 'more_green1':
