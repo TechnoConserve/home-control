@@ -3,13 +3,15 @@ import argparse
 from ast import literal_eval as make_tuple
 import json
 
+CUSTOM_COLOR_PATH = '/home/pi/lights/custom_colors'
+
 parser = argparse.ArgumentParser()
 parser.add_argument("color", help="Specify which color to modify.", type=str)
 parser.add_argument("number", help="Specify if modifying color 1 or 2.", type=int)
 parser.add_argument("direction", help="Specify if color value should be modified up or down.", type=str)
 
 def get_color_values(number):
-    with open('custom_colors', 'r') as f:
+    with open(CUSTOM_COLOR_PATH, 'r') as f:
         data = json.load(f)
         if number == 1:
             color = make_tuple(data["color1"])
@@ -49,7 +51,7 @@ def set_colors(color, number, direction):
         green, red, blue = increment_color(color, green, red, blue)
     elif direction.lower() == 'down':
         green, red, blue = decrement_color(color, green, red, blue)
-    with open('custom_colors', 'w') as f:
+    with open(CUSTOM_COLOR_PATH, 'w') as f:
         data = json.load(f)
         data["color" + number] = green, red, blue
         json.dump(data, f)

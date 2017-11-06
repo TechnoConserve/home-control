@@ -44,7 +44,7 @@ while time.time() - time_start < 60:
         elif message == 'party_off':
             call(['/home/pi/lights/party.py', '--state', 'off'])
         elif message == 'more_red1':
-            call(['/home/pi/controls/set_colors.py', 'color', 'red', 'up'])
+            call(['/home/pi/controls/set_colors.py', 'color', 'red', 'number', 1, 'up'])
         elif message == 'more_green1':
             call(['/home/pi/controls/set_colors.py', 'color', 'green', 'up'])
         elif message == 'more_blue1':
