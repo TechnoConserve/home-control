@@ -40,12 +40,15 @@ while time.time() - time_start < 60:
         elif message == "secondary_off":
             subprocess.call(['/home/pi/controls/red_off.py'])
         elif message == 'party_on':
-            subprocess.call(['/home/pi/lights/party.py'])
+            subprocess.call(['/home/pi/lights/whoshome.py'])
         elif message == 'party_off':
             p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
             out, err = p.communicate()
             for line in out.splitlines():
                 if 'party.py' in line:
+                    pid = int(line.split(None, 1)[0])
+                    os.kill(pid, signal.SIGKILL)
+                if 'whoshome.py' in line:
                     pid = int(line.split(None, 1)[0])
                     os.kill(pid, signal.SIGKILL)
         elif message == 'more_red1':
