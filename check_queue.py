@@ -44,16 +44,28 @@ while time.time() - time_start < 60:
         elif message == 'party_off':
             call(['/home/pi/lights/party.py', '--state', 'off'])
         elif message == 'more_red1':
-            call(['/home/pi/controls/set_colors.py', 'color', 'red', 'number', 1, 'up'])
+            call(['/home/pi/controls/set_colors.py', 'red', 1, 'up'])
         elif message == 'more_green1':
-            call(['/home/pi/controls/set_colors.py', 'color', 'green', 'up'])
+            call(['/home/pi/controls/set_colors.py', 'green', 1, 'up'])
         elif message == 'more_blue1':
-            call(['/home/pi/controls/set_colors.py', 'color', 'blue', 'up'])
+            call(['/home/pi/controls/set_colors.py', 'blue', 1, 'up'])
         elif message == 'less_red1':
-            call(['/home/pi/controls/set_colors.py', 'color', 'red', 'down'])
+            call(['/home/pi/controls/set_colors.py', 'red', 1, 'down'])
         elif message == 'less_green1':
-            call(['/home/pi/controls/set_colors.py', 'color', 'green', 'down'])
+            call(['/home/pi/controls/set_colors.py', 'green', 1, 'down'])
         elif message == 'less_blue1':
-            call(['/home/pi/controls/set_colors.py', 'color', 'blue', 'down'])
+            call(['/home/pi/controls/set_colors.py', 'blue', 1, 'down'])
+        elif message == 'more_red2':
+            call(['/home/pi/controls/set_colors.py', 'red', 2, 'up'])
+        elif message == 'more_green2':
+            call(['/home/pi/controls/set_colors.py', 'green', 2, 'up'])
+        elif message == 'more_blue2':
+            call(['/home/pi/controls/set_colors.py', 'blue', 2, 'up'])
+        elif message == 'less_red2':
+            call(['/home/pi/controls/set_colors.py', 'red', 2, 'down'])
+        elif message == 'less_green2':
+            call(['/home/pi/controls/set_colors.py', 'green', 2, 'down'])
+        elif message == 'less_blue2':
+            call(['/home/pi/controls/set_colors.py', 'blue', 2, 'down'])
     except:
         pass
