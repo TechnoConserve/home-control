@@ -53,8 +53,11 @@ def set_colors(color, number, direction):
         green, red, blue = decrement_color(color, green, red, blue)
     with open(CUSTOM_COLOR_PATH, 'w') as f:
         data = json.load(f)
-        data["color" + number] = green, red, blue
-        json.dump(data, f)
+        if data:
+            data["color" + number] = green, red, blue
+            json.dump(data, f)
+        else:
+            raise ValueError('JSON data is empty!')
 
 
 if __name__ == '__main__':
