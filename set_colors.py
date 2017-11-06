@@ -51,7 +51,7 @@ def set_colors(color, number, direction):
         green, red, blue = increment_color(color, green, red, blue)
     elif direction.lower() == 'down':
         green, red, blue = decrement_color(color, green, red, blue)
-    with open(CUSTOM_COLOR_PATH, 'w') as f:
+    with open(CUSTOM_COLOR_PATH, 'r+') as f:
         data = json.load(f)
         if data:
             data["color" + number] = green, red, blue
