@@ -10,17 +10,10 @@ parser.add_argument("color", help="Specify which color to modify.", type=str)
 parser.add_argument("number", help="Specify if modifying color 1 or 2.", type=int)
 parser.add_argument("direction", help="Specify if color value should be modified up or down.", type=str)
 
-def get_color_values(number):
+def get_color_values():
     with open(CUSTOM_COLOR_PATH, 'r') as f:
         data = json.load(f)
-        if number == 1:
-            color = make_tuple(data["color1"])
-        elif number == 2:
-            color = make_tuple(data["color2"])
-        else:
-            parser.print_help()
-            return
-    return color
+        return data
 
 def decrement_color(color, green, red, blue):
     if color == 'green':
@@ -45,19 +38,15 @@ def increment_color(color, green, red, blue):
     return green, red, blue
 
 def set_colors(color, number, direction):
-    color_data = get_color_values(number)
-    green, red, blue = color_data
+    color_data = get_color_values()
+    green, red, blue = make_tuple(color_data["color" + str(number)])
     if direction.lower() == 'up':
         green, red, blue = increment_color(color, green, red, blue)
     elif direction.lower() == 'down':
         green, red, blue = decrement_color(color, green, red, blue)
-    with open(CUSTOM_COLOR_PATH, 'r+') as f:
-        data = json.load(f)
-        if data:
-            data["color" + str(number)] = green, red, blue
-            json.dump(data, f)
-        else:
-            raise ValueError('JSON data is empty!')
+    with open(CUSTOM_COLOR_PATH, 'w') as f:
+        color_data["color" + str(number)] = green, red, blue
+        json.dump(color_data, f)
 
 
 if __name__ == '__main__':
