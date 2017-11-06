@@ -54,7 +54,7 @@ def set_colors(color, number, direction):
     with open(CUSTOM_COLOR_PATH, 'r+') as f:
         data = json.load(f)
         if data:
-            data["color" + number] = green, red, blue
+            data["color" + str(number)] = green, red, blue
             json.dump(data, f)
         else:
             raise ValueError('JSON data is empty!')
