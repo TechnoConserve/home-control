@@ -1,3 +1,4 @@
+#!/home/pi/venv/home_control/bin/python
 import boto3
 import os
 from subprocess import call
