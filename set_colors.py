@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import argparse
-from ast import literal_eval as make_tuple
 import json
 
 CUSTOM_COLOR_PATH = '/home/pi/lights/custom_colors'
@@ -39,7 +38,7 @@ def increment_color(color, green, red, blue):
 
 def set_colors(color, number, direction):
     color_data = get_color_values()
-    green, red, blue = make_tuple(color_data["color" + str(number)])
+    green, red, blue = color_data["color" + str(number)]
     if direction.lower() == 'up':
         green, red, blue = increment_color(color, green, red, blue)
     elif direction.lower() == 'down':
