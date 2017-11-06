@@ -1,7 +1,7 @@
 #!/home/pi/venv/home_control/bin/python
 import boto3
 import os
-from subprocess import call
+import subprocess, signal
 import time
 
 ACCESS_KEY = os.environ.get('ACCESS_KEY', '')
@@ -32,40 +32,45 @@ while time.time() - time_start < 60:
         message = pop_message(client, QUEUE_URL)
         print(message)
         if message == "main_on":
-            call(['/home/pi/controls/snake_on.py'])
+            subprocess.call(['/home/pi/controls/snake_on.py'])
         elif message == "main_off":
-            call(['/home/pi/controls/snake_off.py'])
+            subprocess.call(['/home/pi/controls/snake_off.py'])
         elif message == "secondary_on":
-            call(['/home/pi/controls/red_on.py'])
+            subprocess.call(['/home/pi/controls/red_on.py'])
         elif message == "secondary_off":
-            call(['/home/pi/controls/red_off.py'])
+            subprocess.call(['/home/pi/controls/red_off.py'])
         elif message == 'party_on':
-            call(['/home/pi/lights/party.py'])
+            subprocess.call(['/home/pi/lights/party.py'])
         elif message == 'party_off':
-            call(['/home/pi/lights/party.py', '--state', 'off'])
+            p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
+            out, err = p.communicate()
+            for line in out.splitlines():
+                if 'party.py' in line:
+                    pid = int(line.split(None, 1)[0])
+                    os.kill(pid, signal.SIGKILL)
         elif message == 'more_red1':
-            call(['/home/pi/controls/set_colors.py', 'red', 1, 'up'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'red', 1, 'up'])
         elif message == 'more_green1':
-            call(['/home/pi/controls/set_colors.py', 'green', 1, 'up'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'green', 1, 'up'])
         elif message == 'more_blue1':
-            call(['/home/pi/controls/set_colors.py', 'blue', 1, 'up'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'blue', 1, 'up'])
         elif message == 'less_red1':
-            call(['/home/pi/controls/set_colors.py', 'red', 1, 'down'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'red', 1, 'down'])
         elif message == 'less_green1':
-            call(['/home/pi/controls/set_colors.py', 'green', 1, 'down'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'green', 1, 'down'])
         elif message == 'less_blue1':
-            call(['/home/pi/controls/set_colors.py', 'blue', 1, 'down'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'blue', 1, 'down'])
         elif message == 'more_red2':
-            call(['/home/pi/controls/set_colors.py', 'red', 2, 'up'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'red', 2, 'up'])
         elif message == 'more_green2':
-            call(['/home/pi/controls/set_colors.py', 'green', 2, 'up'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'green', 2, 'up'])
         elif message == 'more_blue2':
-            call(['/home/pi/controls/set_colors.py', 'blue', 2, 'up'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'blue', 2, 'up'])
         elif message == 'less_red2':
-            call(['/home/pi/controls/set_colors.py', 'red', 2, 'down'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'red', 2, 'down'])
         elif message == 'less_green2':
-            call(['/home/pi/controls/set_colors.py', 'green', 2, 'down'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'green', 2, 'down'])
         elif message == 'less_blue2':
-            call(['/home/pi/controls/set_colors.py', 'blue', 2, 'down'])
+            subprocess.call(['/home/pi/controls/set_colors.py', 'blue', 2, 'down'])
     except:
         pass
