@@ -1,14 +1,29 @@
 #!/home/pi/venv/home_control/bin/python
+
 import boto3
+import datetime
+import json
 import os
 import psutil
 import subprocess
 import time
 
+start = datetime.time(7, 00)
+end = datetime.time(21, 30)
+
 ACCESS_KEY = os.environ.get('ACCESS_KEY', '')
 ACCESS_SECRET = os.environ.get('ACCESS_SECRET', '')
 REGION = 'us-east-1'
 QUEUE_URL = os.environ.get('QUEUE_URL', '')
+
+PARTY_FILE = '/home/pi/lights/party.json'
+
+
+def alter_party(state):
+    with open(PARTY_FILE, 'w') as f:
+        data = json.load(f)
+        data['party'] = state
+        json.dumps(data, f)
 
 
 def pop_message(client, url):
@@ -41,15 +56,21 @@ while time.time() - time_start < 60:
         elif message == "secondary_off":
             subprocess.call(['/home/pi/controls/red_off.py'])
         elif message == 'party_on':
-            already_running = False
-            # Don't start a new process if one is already running
-            for proc in psutil.process_iter(attrs=['name']):
-                if proc.name() == 'whoshome.py':
-                    already_running = True
-                    break
-            if not already_running:
-                subprocess.call(['/home/pi/lights/whoshome.py'])
+            now = datetime.datetime.now().time()
+
+            if start <= now <= end:
+                already_running = False
+                # Don't start a new process if one is already running
+                for proc in psutil.process_iter(attrs=['name']):
+                    if proc.name() == 'whoshome.py':
+                        already_running = True
+                        break
+                if not already_running:
+                    subprocess.call(['/home/pi/lights/whoshome.py'])
+            else:
+                alter_party(1)
         elif message == 'party_off':
+            alter_party(0)
             for proc in psutil.process_iter(attrs=['name']):
                 if proc.name() == 'whoshome.py':
                     proc.terminate()
