@@ -41,10 +41,13 @@ while time.time() - time_start < 60:
         elif message == "secondary_off":
             subprocess.call(['/home/pi/controls/red_off.py'])
         elif message == 'party_on':
+            already_running = False
             # Don't start a new process if one is already running
             for proc in psutil.process_iter(attrs=['name']):
                 if proc.name() == 'whoshome.py':
+                    already_running = True
                     break
+            if not already_running:
                 subprocess.call(['/home/pi/lights/whoshome.py'])
         elif message == 'party_off':
             for proc in psutil.process_iter(attrs=['name']):
