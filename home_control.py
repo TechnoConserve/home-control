@@ -1,3 +1,5 @@
+#!/home/pi/venv/home_control/bin/python
+
 from flask import Flask, render_template, request
 import os
 import re
