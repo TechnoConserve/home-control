@@ -1,15 +1,11 @@
 #!/home/pi/venv/home_control/bin/python
 
 import boto3
-import datetime
 import json
 import os
 import psutil
 import subprocess
 import time
-
-start = datetime.time(7, 00)
-end = datetime.time(21, 30)
 
 ACCESS_KEY = os.environ.get('ACCESS_KEY', '')
 ACCESS_SECRET = os.environ.get('ACCESS_SECRET', '')
@@ -20,10 +16,12 @@ PARTY_FILE = '/home/pi/lights/party.json'
 
 
 def alter_party(state):
-    with open(PARTY_FILE, 'w') as f:
+    with open(PARTY_FILE, 'r+') as f:
         data = json.load(f)
         data['party'] = state
-        json.dumps(data, f)
+        f.seek(0)
+        f.write(json.dumps(data))
+        f.truncate()
 
 
 def pop_message(client, url):
@@ -56,17 +54,16 @@ while time.time() - time_start < 60:
         elif message == "secondary_off":
             subprocess.call(['/home/pi/controls/red_off.py'])
         elif message == 'party_on':
-            now = datetime.datetime.now().time()
-
-            if start <= now <= end:
-                already_running = False
-                # Don't start a new process if one is already running
-                for proc in psutil.process_iter(attrs=['name']):
-                    if proc.name() == 'whoshome.py':
-                        already_running = True
-                        break
-                if not already_running:
-                    subprocess.call(['/home/pi/lights/whoshome.py'])
+            already_running = False
+            # Don't start a new process if one is already running
+            for proc in psutil.process_iter(attrs=['name']):
+                if proc.name() == 'whoshome.py':
+                    already_running = True
+                    break
+            if not already_running:
+                subprocess.Popen(['/home/pi/lights/whoshome.py'],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT)
             else:
                 alter_party(1)
         elif message == 'party_off':
@@ -74,6 +71,7 @@ while time.time() - time_start < 60:
             for proc in psutil.process_iter(attrs=['name']):
                 if proc.name() == 'whoshome.py':
                     proc.terminate()
+                    break
         elif message == 'more_red1':
             subprocess.call(['/home/pi/controls/set_colors.py', 'red', '1', 'up'])
         elif message == 'more_green1':
